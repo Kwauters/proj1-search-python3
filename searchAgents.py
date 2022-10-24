@@ -92,7 +92,7 @@ class SearchAgent(Agent):
             print('[SearchAgent] using function %s and heuristic %s' % (fn, heuristic))
             # Note: this bit of Python trickery combines the search algorithm and the heuristic
             if fn:
-                if fn!='depthFirstSearch' and fn!='dfs' and fn!='breatdhFirstSearch' and fn!='bfs' and fn!='uniformCostSearch' and fn!='ucs':
+                if fn!='depthFirstSearch' and fn!='dfs' and fn!='breatdhFirstSearch' and fn!='bfs' and fn!='uniformCostSearch' and fn!='ucs' and fn!='tinyMazeSearch':
                     self.searchFunction = lambda x: func(x, heuristic=heur)
                 else:
                     self.searchFunction = lambda x: func(x)
