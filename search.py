@@ -87,7 +87,45 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    """
+    #First Solution
+    #utilizes extra stack to keep track of path, and deviates from pseudocode
+    
+    from util import Stack
+    fringe = Stack()
+    visited = set()
+    path = list()
+    currentPath = Stack()
+
+    fringe.push(problem.getStartState())
+    currentState = fringe.pop()
+    while problem.isGoalState(currentState) == False:
+        if currentState not in visited:
+            visited.add(currentState)
+            successorStates = problem.getSuccessors(currentState)
+            for successor,action,stepCost in successorStates:
+                fringe.push(successor)
+                currentPath.push(path+[action])
+        currentState = fringe.pop()
+        path = currentPath.pop()
+    return path
+    """
+    from util import Stack
+    fringe = Stack()
+    visited = set()
+    fringe.push((problem.getStartState(),[]))
+    while fringe.isEmpty() == False:
+        currentState = fringe.pop()
+        location = currentState[0]
+        path = currentState[1]
+        if location not in visited:
+            visited.add(location)
+            if problem.isGoalState(location):
+                return path
+            successorStates = problem.getSuccessors(location)
+            for successor,action,stepCost in successorStates:
+                fringe.push((successor,path+[action]))
+    return []
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
