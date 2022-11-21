@@ -297,7 +297,7 @@ class CornersProblem(search.SearchProblem):
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
         top, right = self.walls.height-2, self.walls.width-2
-        self.corners = ((1,1), (1,top), (right, 1), (right, top))
+        self.corners = ((1,1), (1,top), (right, 1), (right, top)) #bottom_left, top_left, bottom_right, top_right
         for corner in self.corners:
             if not startingGameState.hasFood(*corner):
                 print('Warning: no food in corner ' + str(corner))
@@ -306,20 +306,23 @@ class CornersProblem(search.SearchProblem):
         # in initializing the problem
         "*** YOUR CODE HERE ***"
 
+        self.goal = (1,1,1,1)
+        self.startstate = (self.startingPosition,(0,0,0,0))
+
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.startstate
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return (state[1] == self.goal)
 
     def getSuccessors(self, state):
         """
@@ -342,6 +345,17 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x,y = state[0]
+            c = list(state[1][:])#copy by value
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                for i in range(4):
+                    if (nextx, nexty) == self.corners[i]:
+                        c[i] = 1
+                nextState = ((nextx, nexty),tuple(c))
+                stepCost = 1
+                successors.append((nextState, action, stepCost))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
