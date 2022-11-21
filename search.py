@@ -136,7 +136,8 @@ def uniformCostSearch(problem):
         location = currentState[0]
         path = currentState[1]
         cost = currentState[2]
-        if (location not in visited) or (cost < visited[location]):
+        #if (location not in visited) or (cost < visited[location]): Not needed?
+        if (location not in visited):
             visited[location] = cost
             if problem.isGoalState(location):
                 return path
