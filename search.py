@@ -129,7 +129,7 @@ def uniformCostSearch(problem):
     "*** YOUR CODE HERE ***"
     from util import PriorityQueue
     fringe = PriorityQueue()
-    visited = dict() #contains all visited places and their cheapest cost
+    visited = set() #contains all visited places and their cheapest cost
     fringe.push((problem.getStartState(),[],0),0) #((current State, path to current state, cost of current path), cost of current path)
     while fringe.isEmpty() == False:
         currentState = fringe.pop()
@@ -138,7 +138,7 @@ def uniformCostSearch(problem):
         cost = currentState[2]
         #if (location not in visited) or (cost < visited[location]): Not needed?
         if (location not in visited):
-            visited[location] = cost
+            visited.add(location)
             if problem.isGoalState(location):
                 return path
             successorStates = problem.getSuccessors(location)
