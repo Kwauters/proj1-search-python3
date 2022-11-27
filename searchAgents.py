@@ -391,7 +391,60 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+
+    "Select heuristic - only one should be uncommented"
+    H = "Sum_Manhattan"
+    #H = "Sum_Euclidian"
+    #H = "Min_Manhattan"
+    #H = "Max_Manhattan"
+    #H = "Trivial"
+    
+    position = state[0]
+    visited = state[1]
+
+    if H == "Sum_Manhattan":
+        "Sum Manhattan distances unvisited corners"
+        sum = 0
+        for i in range(4):
+            if visited[i] == 0: 
+                sum += abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1])
+        heuristic = sum
+        
+    if H == "Sum_Euclidian":
+        "Sum Euclidian distances unvisited corners"
+        sum = 0
+        for i in range(4):
+            if visited[i] == 0: 
+                sum += ((position[0]-corners[i][0])**2 + (position[1]-corners[i][1])**2)**0.5
+        heuristic = sum
+
+    if H == "Min_Manhattan":
+        "minimum Manhattan distances unvisited corners"
+        distance = list()
+        for i in range(4):
+            if visited[i] == 0: 
+                distance.append(abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1]))
+        if distance != []:
+            heuristic = min(distance)
+        else:
+            heuristic = 0
+    
+    if H == "Max_Manhattan":
+        "Maximum Manhattan distances unvisited corners"
+        distance = list()
+        for i in range(4):
+            if visited[i] == 0: 
+                distance.append(abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1]))
+        if distance != []:
+            heuristic = max(distance)
+        else:
+            heuristic = 0
+    
+    if H == "Trivial":
+        "trivial solution"
+        heuristic = 0
+    
+    return heuristic
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
