@@ -308,6 +308,7 @@ class CornersProblem(search.SearchProblem):
 
         self.goal = (1,1,1,1)
         self.startstate = (self.startingPosition,(0,0,0,0))
+        self.startingGameState = startingGameState
 
     def getStartState(self):
         """
@@ -392,11 +393,15 @@ def cornersHeuristic(state, problem):
 
     "*** YOUR CODE HERE ***"
 
+    from util import manhattanDistance
+
     "Select heuristic - only one should be uncommented"
-    H = "Sum_Manhattan"
-    #H = "Sum_Euclidian"
-    #H = "Min_Manhattan"
-    #H = "Max_Manhattan"
+    #H = "Sum_Manhattan" #Inadmissible heuristic
+    #H = "Sum_Euclidian" #Inadmissible heuristic
+    #H = "Min_Manhattan" #Inadmissible heuristic
+    H = "Max_Manhattan" 
+    #H = "Average_Manhattan" #Heuristic resulted in expansion of 1289 nodes
+    #H = "Max_MazeDistance"
     #H = "Trivial"
     
     position = state[0]
@@ -404,41 +409,53 @@ def cornersHeuristic(state, problem):
 
     if H == "Sum_Manhattan":
         "Sum Manhattan distances unvisited corners"
-        sum = 0
+        heuristic = 0
         for i in range(4):
             if visited[i] == 0: 
-                sum += abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1])
-        heuristic = sum
+                heuristic += manhattanDistance(position,corners[i])
+                #s += abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1])
         
     if H == "Sum_Euclidian":
         "Sum Euclidian distances unvisited corners"
-        sum = 0
+        heuristic = 0
         for i in range(4):
             if visited[i] == 0: 
-                sum += ((position[0]-corners[i][0])**2 + (position[1]-corners[i][1])**2)**0.5
-        heuristic = sum
+                heuristic += ((position[0]-corners[i][0])**2 + (position[1]-corners[i][1])**2)**0.5
 
     if H == "Min_Manhattan":
-        "minimum Manhattan distances unvisited corners"
-        distance = list()
+        "minimum Manhattan distance unvisited corners"
+        distance = [0]
         for i in range(4):
             if visited[i] == 0: 
-                distance.append(abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1]))
-        if distance != []:
-            heuristic = min(distance)
-        else:
-            heuristic = 0
+                distance.append(manhattanDistance(position,corners[i]))
+        heuristic = min(distance)
     
     if H == "Max_Manhattan":
-        "Maximum Manhattan distances unvisited corners"
-        distance = list()
+        "Maximum Manhattan distance unvisited corners"
+        distance = [0]
         for i in range(4):
             if visited[i] == 0: 
-                distance.append(abs(position[0]-corners[i][0]) + abs(position[1]-corners[i][1]))
-        if distance != []:
-            heuristic = max(distance)
-        else:
+                distance.append(manhattanDistance(position,corners[i]))
+        heuristic = max(distance)
+
+    if H == "Average_Manhattan":
+        "Average Manhattan distance unvisited corners"
+        distance = []
+        for i in range(4):
+            if visited[i] == 0: 
+                distance.append(manhattanDistance(position,corners[i]))
+        if distance == []:
             heuristic = 0
+        else:
+            heuristic = sum(distance)/len(distance)
+
+    if H == "Max_MazeDistance":
+        "Maximum MazeDistance unvisited corners"
+        distance = [0]
+        for i in range(4):
+            if visited[i] == 0: 
+                distance.append(mazeDistance(position,corners[i],problem.startingGameState))
+        heuristic = max(distance)
     
     if H == "Trivial":
         "trivial solution"
