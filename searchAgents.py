@@ -399,9 +399,9 @@ def cornersHeuristic(state, problem):
     #H = "Sum_Manhattan" #Inadmissible heuristic
     #H = "Sum_Euclidian" #Inadmissible heuristic
     #H = "Min_Manhattan" #Inadmissible heuristic
-    H = "Max_Manhattan" 
+    #H = "Max_Manhattan" #Heuristic resulted in expansion of 1136 nodes
     #H = "Average_Manhattan" #Heuristic resulted in expansion of 1289 nodes
-    #H = "Max_MazeDistance"
+    H = "Max_MazeDistance" #Heuristic resulted in expansion of 801 nodes
     #H = "Trivial"
     
     position = state[0]
