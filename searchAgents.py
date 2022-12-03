@@ -555,6 +555,35 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    foodPosition = foodGrid.asList()
+    
+    """Euclidian distance to the farthest food"""
+    """
+    def euclidanDistance(xy1, xy2):
+        return(((xy1[0]-xy2[0])**2 + (xy1[1]-xy2[1])**2)**0.5)
+
+    heuristic = [0]
+    for p in foodPosition:
+        heuristic.append(euclidanDistance(position,p))
+    return max(heuristic)
+    """
+    
+    """Manhattan distance to the farthest food"""
+    """
+    from util import manhattanDistance
+    heuristic = [0]
+    for p in foodPosition:
+        heuristic.append(manhattanDistance(position,p))
+    return max(heuristic)
+    """
+    
+    """Maze distance to the farthest food"""
+    
+    heuristic = [0]
+    for p in foodPosition:
+        heuristic.append(mazeDistance(position,p,problem.startingGameState))
+    return max(heuristic)
+    
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
