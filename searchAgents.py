@@ -557,7 +557,7 @@ def foodHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     foodPosition = foodGrid.asList()
     
-    """Euclidian distance to the farthest food"""
+    """Euclidian distance to the farthest food(expanded: 10352)"""
     """
     def euclidanDistance(xy1, xy2):
         return(((xy1[0]-xy2[0])**2 + (xy1[1]-xy2[1])**2)**0.5)
@@ -568,7 +568,7 @@ def foodHeuristic(state, problem):
     return max(heuristic)
     """
     
-    """Manhattan distance to the farthest food"""
+    """Manhattan distance to the farthest food(expanded: 9551)"""
     """
     from util import manhattanDistance
     heuristic = [0]
@@ -577,7 +577,7 @@ def foodHeuristic(state, problem):
     return max(heuristic)
     """
     
-    """Maze distance to the farthest food"""
+    """Maze distance to the farthest food(expanded: 4137)"""
     
     heuristic = [0]
     for p in foodPosition:
