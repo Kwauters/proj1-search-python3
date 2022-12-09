@@ -95,10 +95,10 @@ def depthFirstSearch(problem):
         currentState = fringe.pop()
         location = currentState[0]
         path = currentState[1]
+        if problem.isGoalState(location):
+                return path
         if location not in visited:
             visited.add(location)
-            if problem.isGoalState(location):
-                return path
             successorStates = problem.getSuccessors(location)
             for successor,action,stepCost in successorStates:
                 fringe.push((successor,path+[action]))
@@ -115,10 +115,10 @@ def breadthFirstSearch(problem):
         currentState = fringe.pop()
         location = currentState[0]
         path = currentState[1]
-        if location not in visited:
-            visited.add(location)
-            if problem.isGoalState(location):
+        if problem.isGoalState(location):
                 return path
+        if location not in visited:
+            visited.add(location) 
             successorStates = problem.getSuccessors(location)
             for successor,action,stepCost in successorStates:
                 fringe.push((successor,path+[action]))
@@ -137,10 +137,10 @@ def uniformCostSearch(problem):
         path = currentState[1]
         cost = currentState[2]
         #if (location not in visited) or (cost < visited[location]): Not needed?
+        if problem.isGoalState(location):
+                return path
         if (location not in visited):
             visited.add(location)
-            if problem.isGoalState(location):
-                return path
             successorStates = problem.getSuccessors(location)
             for successor,action,stepCost in successorStates:
                 fringe.push((successor, path+[action], cost+stepCost), (cost+stepCost))
@@ -165,10 +165,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         location = currentState[0]
         path = currentState[1]
         cost = currentState[2]
-        if (location not in visited) or (cost < visited[location]):
-            visited[location] = cost
-            if problem.isGoalState(location):
+        if problem.isGoalState(location):
                 return path
+        if (location not in visited) or (cost < visited[location]):
+            visited[location] = cost 
             successorStates = problem.getSuccessors(location)
             for successor,action,stepCost in successorStates:
                 fringe.push((successor, path+[action], cost+stepCost), (cost+stepCost+heuristic(successor,problem)))
